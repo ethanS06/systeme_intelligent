@@ -101,14 +101,106 @@ public class Echiquier {
 
 		return ligne;
 	}
+
+	//clear le plateau
+	public void ClearEchiquier(){
+		for (int i = 0 ; i<=this.taille-1 ; i++){
+			for (int j=0 ; j<= this.taille-1 ; j++){
+				getCellule(i,j).setOccupation(0);
+			}
+		}
+	}
+
+	//compter le nb de cases prises par une reine
+	public int compter(int x, int y){
+		if (x>=8 || y>=8){
+			System.out.println("la case (" +x+"," + y + ") n'existe pas veuillez ressayer avec des coordonees comprises entre 0 et 7" );
+			return -1;		
+		}
+		else { 
+			Echiquier copietest = new Echiquier(8);
+			copietest.initialiserEchiquier();
+			copietest.placerReine(x,y);
+			int somme =1;
+			for (int i= 0 ; i<=7 ; i++){
+				for (int j =0 ; j<=7; j++){
+					if (copietest.getCellule(i,j).getOccupation() == 2){
+						somme +=1;
+					}
+				}
+			}
+			//System.out.println(copietest);
+			copietest.ClearEchiquier();
+
+			return somme;
+		}
+
+		
+	}
+
+	//indique l'existence d'une csae libre dans le plateau
+
+	public boolean case_libre(){
+		for (int i = 0 ; i<this.taille ; i++){
+			for (int j = 0 ; j<this.taille ; j++){
+				if (this.echiquier[i][j].getOccupation() == 0 ){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
+//compter le nb de reine sur le plateau
+	public int compter_reine(){
+		int compteur = 0 ;
+		for (int i = 0 ; i<this.taille ; i++){
+			for (int j = 0 ; j<this.taille ; j++){
+				if (this.echiquier[i][j].getOccupation() == 1 ){
+					compteur+=1;
+				}
+			}
+		}
+		return compteur;
+	}
+//Algorithme de placement de reines
+	public void algoreineglouton(int n){
+		Echiquier temporaire = new Echiquier(n);
+		temporaire.initialiserEchiquier();
+		Cellule cellule_a_placer = new Cellule(0,5);
+		int nb_cases_menace = temporaire.compter(0,5);
+		int compteur = 0;
+		while(temporaire.case_libre()){
+			for (int i = 0 ;  i<=n-1; i++){
+				for (int j = 0 ; j<=n-1 ; j++){
+					if (temporaire.getCellule(i,j).getOccupation() == 0) {
+						if (temporaire.compter(i,j) < nb_cases_menace){
+							cellule_a_placer = temporaire.getCellule(i,j);
+							nb_cases_menace = temporaire.compter(i,j);
+						}
+					}
+				}
+			}
+			temporaire.placerReine(cellule_a_placer.getX() , cellule_a_placer.getY());
+			nb_cases_menace = 64;
+
+		compteur+=1;
+		}
+		System.out.println(temporaire);
+		System.out.println(temporaire.compter_reine());
+	}
+
+
+
+
+
 
 
 	public static void main(String[] args) {
 
 		Echiquier testechiquier = new Echiquier(8);
 		testechiquier.initialiserEchiquier();
-		testechiquier.modifierCellule(5,5,0);
+		/*testechiquier.modifierCellule(5,5,0);
 		//System.out.println((testechiquier.getCellule(5,5)).getOccupation());
 		testechiquier.placerReine(2,4);
 		testechiquier.placerReine(2,4);
@@ -117,10 +209,12 @@ public class Echiquier {
 		System.out.println((testechiquier.getCellule(2,4)).getOccupation());
 		System.out.println((testechiquier.getCellule(3,5)).getOccupation());
 		System.out.println((testechiquier.getCellule(4,6)).getOccupation());
-		System.out.println((testechiquier.getCellule(5,7)).getOccupation());*/
+		System.out.println((testechiquier.getCellule(5,7)).getOccupation());
 
-		System.out.println(testechiquier);
-		
+		System.out.println(testechiquier);*/
+		testechiquier.algoreineglouton(8);
+
+
 		
 	}
 
