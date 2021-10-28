@@ -112,7 +112,7 @@ public class Echiquier {
 	}
 
 	//compter le nb de cases prises par une reine
-	public int compter(int x, int y){
+	public static int compter(int x, int y){
 		if (x>=8 || y>=8){
 			System.out.println("la case (" +x+"," + y + ") n'existe pas veuillez ressayer avec des coordonees comprises entre 0 et 7" );
 			return -1;		
@@ -164,19 +164,19 @@ public class Echiquier {
 		return compteur;
 	}
 //Algorithme de placement de reines
-	public void algoreineglouton(int n){
+	public static void algoreineglouton(int n){
 		Echiquier temporaire = new Echiquier(n);
 		temporaire.initialiserEchiquier();
 		Cellule cellule_a_placer = new Cellule(0,5);
-		int nb_cases_menace = temporaire.compter(0,5);
+		int nb_cases_menace = compter(0,5);
 		int compteur = 0;
 		while(temporaire.case_libre()){
 			for (int i = 0 ;  i<=n-1; i++){
 				for (int j = 0 ; j<=n-1 ; j++){
 					if (temporaire.getCellule(i,j).getOccupation() == 0) {
-						if (temporaire.compter(i,j) < nb_cases_menace){
+						if (compter(i,j) < nb_cases_menace){
 							cellule_a_placer = temporaire.getCellule(i,j);
-							nb_cases_menace = temporaire.compter(i,j);
+							nb_cases_menace = compter(i,j);
 						}
 					}
 				}
@@ -200,19 +200,7 @@ public class Echiquier {
 
 		Echiquier testechiquier = new Echiquier(8);
 		testechiquier.initialiserEchiquier();
-		/*testechiquier.modifierCellule(5,5,0);
-		//System.out.println((testechiquier.getCellule(5,5)).getOccupation());
-		testechiquier.placerReine(2,4);
-		testechiquier.placerReine(2,4);
-		/*System.out.println((testechiquier.getCellule(0,2)).getOccupation());		
-		System.out.println((testechiquier.getCellule(1,3)).getOccupation());
-		System.out.println((testechiquier.getCellule(2,4)).getOccupation());
-		System.out.println((testechiquier.getCellule(3,5)).getOccupation());
-		System.out.println((testechiquier.getCellule(4,6)).getOccupation());
-		System.out.println((testechiquier.getCellule(5,7)).getOccupation());
-
-		System.out.println(testechiquier);*/
-		testechiquier.algoreineglouton(8);
+		algoreineglouton(8);
 
 
 		
