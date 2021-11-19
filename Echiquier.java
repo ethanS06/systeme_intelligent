@@ -169,7 +169,7 @@ public class Echiquier {
 		temporaire.initialiserEchiquier();
 		Cellule cellule_a_placer = new Cellule(0,5);
 		int nb_cases_menace = compter(0,5);
-		int compteur = 0;
+		
 		while(temporaire.case_libre()){
 			for (int i = 0 ;  i<=n-1; i++){
 				for (int j = 0 ; j<=n-1 ; j++){
@@ -184,13 +184,32 @@ public class Echiquier {
 			temporaire.placerReine(cellule_a_placer.getX() , cellule_a_placer.getY());
 			nb_cases_menace = 64;
 
-		compteur+=1;
+		
 		}
 		System.out.println(temporaire);
 		System.out.println(temporaire.compter_reine());
 	}
 
+	public static void algoreineglouton2(int n){
+		Echiquier temporaire = new Echiquier(n);
+		temporaire.initialiserEchiquier();
+		while (temporaire.case_libre()){ 
+				for (int i = 0  ; i < n ; i++){
+					for (int j = 0 ; j< n ; j++){
+						if ( i <n/2 && j%2==1 ){
+							temporaire.placerReine(i, j);
+						}
+						else if(i>=n/2 && j%2==0 ){
+							temporaire.placerReine(i, j);
+						}
+					}
+				}
+			}
+		System.out.println(temporaire);
+		System.out.println(temporaire.compter_reine());
+	
 
+	}
 
 
 
@@ -200,7 +219,9 @@ public class Echiquier {
 
 		Echiquier testechiquier = new Echiquier(8);
 		testechiquier.initialiserEchiquier();
-		algoreineglouton(8);
+		algoreineglouton2(8);
+		
+		
 
 
 		
